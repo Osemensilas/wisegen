@@ -37,9 +37,9 @@ const Footer = () => {
                             Events
                             </Link>
 
-                            <Link href="/news" className="block hover:text-white">
+                            {/* <Link href="/news" className="block hover:text-white">
                             News
-                            </Link>
+                            </Link> */}
 
                             <Link href="/contact" className="block hover:text-white">
                             Contact

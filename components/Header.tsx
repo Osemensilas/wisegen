@@ -48,13 +48,6 @@ const Header = () => {
             </Link>
 
             <Link
-              href="/news"
-              className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
-            >
-              News
-            </Link>
-
-            <Link
               href="/contact"
               className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
             >
