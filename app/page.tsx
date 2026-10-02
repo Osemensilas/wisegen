@@ -3,33 +3,8 @@
 import Link from "next/link";
 import {ArrowRight, CalendarDays, Check, Heart, Sparkles, Users,} from "lucide-react";
 import Image from "next/image";
-
-const events = [
-  {
-    date: "03",
-    month: "OCT",
-    title: "Weekly Mentoring Meeting",
-    description:
-      "A time to learn, connect, ask questions, and grow together in faith and wisdom.",
-    category: "Mentoring",
-  },
-  {
-    date: "10",
-    month: "OCT",
-    title: "Purpose & Identity Session",
-    description:
-      "A meaningful conversation about identity, purpose, and becoming who God has called you to be.",
-    category: "Growth",
-  },
-  {
-    date: "24",
-    month: "OCT",
-    title: "WiseGen Youth Conference",
-    description:
-      "A special gathering focused on faith, purpose, relationships, wisdom, and personal growth.",
-    category: "Conference",
-  },
-];
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const values = [
   {
@@ -69,7 +44,59 @@ const youths = [
   { image: "/images/google5.jpg", alt: "fifth youth" },
 ];
 
+type EventStatus = "upcoming" | "past";
+
 export default function HomePage() {
+
+  interface Event {
+    id: number;
+    event_id: number;
+    title: string;
+    slug: string;
+    category: string;
+    date: string;
+    time: string;
+    location: string;
+    description: string;
+    status: EventStatus;
+    attendees: number;
+    photos: number;
+    image: string;
+    month: string;
+    day: string;
+  }
+
+  const [events, setEvents] = useState<Event[]>([]);
+  
+  useEffect(() => {
+    async function fetchEvents() {
+      try{
+        const url = "http://localhost:8000/api/public-events";
+        const response = await axios.get(url, {withCredentials: true});
+
+        console.log(response.data);
+
+        if (response.data.status === "success"){
+          setEvents(response.data.events);
+        }
+      }catch (error) {
+        if (axios.isAxiosError(error)){
+          console.log(error.response?.data);
+        }
+      }
+    }
+    fetchEvents();
+  },[])
+
+  const truncateWords = (text: string, wordLimit: number) => {
+    const words = text.trim().split(/\s+/);
+
+    if (words.length <= wordLimit) {
+      return text;
+    }
+
+    return words.slice(0, wordLimit).join(" ") + "...";
+  };
   return (
     <>
       {/* HERO */}
@@ -335,7 +362,7 @@ export default function HomePage() {
 
                 <div className="p-6">
                   <p className="leading-7 text-slate-600">
-                    {event.description}
+                    {truncateWords(event.description, 30)}
                   </p>
 
                   <div className="mt-6 flex items-center gap-2 text-sm font-bold text-slate-950">

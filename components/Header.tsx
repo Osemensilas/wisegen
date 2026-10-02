@@ -8,8 +8,6 @@ import { usePathname } from "next/navigation";
 const Header = () => {
     const pathname = usePathname();
 
-    console.log(pathname);
-
     const [mobileMenu, setMobileMenu] = useState(false);
 
     return ( 
@@ -33,28 +31,36 @@ const Header = () => {
             <nav className="hidden items-center gap-8 lg:flex">
               <Link
                 href="/"
-                className="text-sm font-semibold text-slate-900 transition hover:text-amber-600"
+                className={`text-sm font-semibold transition hover:text-amber-600
+                  ${pathname === '/' ? ' text-amber-500' : 'text-slate-600'}
+                  `}
               >
                 Home
               </Link>
 
               <Link
                 href="/about"
-                className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
+                className={`text-sm font-semibold transition hover:text-amber-600
+                  ${pathname === '/about' ? ' text-amber-500' : 'text-slate-600'}
+                  `}
               >
                 About
               </Link>
 
               <Link
                 href="/events"
-                className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
+                className={`text-sm font-semibold transition hover:text-amber-600
+                  ${pathname === '/events' ? ' text-amber-500' : 'text-slate-600'}
+                  `}
               >
                 Events
               </Link>
 
               <Link
                 href="/contact"
-                className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
+                className={`text-sm font-semibold transition hover:text-amber-600
+                  ${pathname === '/contact' ? ' text-amber-500' : 'text-slate-600'}
+                  `}  
               >
                 Contact
               </Link>
@@ -79,37 +85,37 @@ const Header = () => {
             </button>
           </div>
 
-        {/* MOBILE MENU */}
-        {mobileMenu && (
-          <div className="border-t border-slate-200 bg-[#fffdf8] px-5 py-6 lg:hidden">
-            <nav className="mx-auto flex max-w-7xl flex-col gap-5">
-              {[
-                ["Home", "/"],
-                ["About", "/about"],
-                ["Events", "/events"],
-                ["Contact", "/contact"],
-              ].map(([label, href]) => (
-                <Link
-                  key={label}
-                  href={href}
-                  onClick={() => setMobileMenu(false)}
-                  className="text-base font-semibold"
-                >
-                  {label}
-                </Link>
-              ))}
+          {/* MOBILE MENU */}
+          {mobileMenu && (
+            <div className="border-t border-slate-200 bg-[#fffdf8] px-5 py-6 lg:hidden">
+              <nav className="mx-auto flex max-w-7xl flex-col gap-5">
+                {[
+                  ["Home", "/"],
+                  ["About", "/about"],
+                  ["Events", "/events"],
+                  ["Contact", "/contact"],
+                ].map(([label, href]) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    onClick={() => setMobileMenu(false)}
+                    className="text-base font-semibold"
+                  >
+                    {label}
+                  </Link>
+                ))}
 
-              <Link
-                href="/join"
-                onClick={() => setMobileMenu(false)}
-                className="mt-2 rounded-full bg-amber-400 px-6 py-3 text-center text-sm font-bold text-slate-950"
-              >
-                Join WiseGen
-              </Link>
-            </nav>
-          </div>
-        )}
-      </header>
+                <Link
+                  href="/join"
+                  onClick={() => setMobileMenu(false)}
+                  className="mt-2 rounded-full bg-amber-400 px-6 py-3 text-center text-sm font-bold text-slate-950"
+                >
+                  Join WiseGen
+                </Link>
+              </nav>
+            </div>
+          )}
+        </header>
         </>
      );
 }
