@@ -15,69 +15,69 @@ const Header = () => {
     return ( 
         <>
         <header className="fixed left-0 top-0 z-50 w-full border-b border-white/20 bg-[#fffdf8]/90 backdrop-blur-xl">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950">
-              W
+          <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950">
+                W
+              </div>
+
+              <div>
+                <p className="text-xl font-black tracking-tight">WISEGEN</p>
+                <p className="hidden text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-500 sm:block">
+                  Faith • Wisdom • Purpose
+                </p>
+              </div>
+            </Link>
+
+            {/* DESKTOP NAV */}
+            <nav className="hidden items-center gap-8 lg:flex">
+              <Link
+                href="/"
+                className="text-sm font-semibold text-slate-900 transition hover:text-amber-600"
+              >
+                Home
+              </Link>
+
+              <Link
+                href="/about"
+                className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
+              >
+                About
+              </Link>
+
+              <Link
+                href="/events"
+                className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
+              >
+                Events
+              </Link>
+
+              <Link
+                href="/contact"
+                className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
+              >
+                Contact
+              </Link>
+            </nav>
+
+            <div className="hidden lg:block">
+              <Link
+                href="/join"
+                className="rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white transition hover:bg-amber-500 hover:text-slate-950"
+              >
+                Join Us
+              </Link>
             </div>
 
-            <div>
-              <p className="text-xl font-black tracking-tight">WISEGEN</p>
-              <p className="hidden text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-500 sm:block">
-                Faith • Wisdom • Purpose
-              </p>
-            </div>
-          </Link>
-
-          {/* DESKTOP NAV */}
-          <nav className="hidden items-center gap-8 lg:flex">
-            <Link
-              href="/"
-              className="text-sm font-semibold text-slate-900 transition hover:text-amber-600"
+            {/* MOBILE BUTTON */}
+            <button
+              onClick={() => setMobileMenu(!mobileMenu)}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-950 text-white lg:hidden"
+              aria-label="Toggle menu"
             >
-              Home
-            </Link>
-
-            <Link
-              href="/about"
-              className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
-            >
-              About
-            </Link>
-
-            <Link
-              href="/events"
-              className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
-            >
-              Events
-            </Link>
-
-            <Link
-              href="/contact"
-              className="text-sm font-semibold text-slate-600 transition hover:text-amber-600"
-            >
-              Contact
-            </Link>
-          </nav>
-
-          <div className="hidden lg:block">
-            <Link
-              href="/join"
-              className="rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white transition hover:bg-amber-500 hover:text-slate-950"
-            >
-              Join Us
-            </Link>
+              {mobileMenu ? <X size={21} /> : <Menu size={21} />}
+            </button>
           </div>
-
-          {/* MOBILE BUTTON */}
-          <button
-            onClick={() => setMobileMenu(!mobileMenu)}
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-950 text-white lg:hidden"
-            aria-label="Toggle menu"
-          >
-            {mobileMenu ? <X size={21} /> : <Menu size={21} />}
-          </button>
-        </div>
 
         {/* MOBILE MENU */}
         {mobileMenu && (
