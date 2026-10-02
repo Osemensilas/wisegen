@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import {
   ArrowRight,
@@ -6,44 +8,57 @@ import {
   MapPin,
   Sparkles,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const upcomingEvents = [
-  {
-    date: "03",
-    month: "OCT",
-    day: "Saturday",
-    title: "Weekly Mentoring Meeting",
-    category: "Mentoring",
-    time: "4:00 PM",
-    location: "Venue to be announced",
-    description:
-      "A welcoming time to learn about God, ask questions, connect with others, and grow together in faith and wisdom.",
-  },
-  {
-    date: "10",
-    month: "OCT",
-    day: "Saturday",
-    title: "Purpose & Identity Session",
-    category: "Growth",
-    time: "4:00 PM",
-    location: "Venue to be announced",
-    description:
-      "A meaningful conversation about identity, purpose, and becoming who God has called you to be.",
-  },
-  {
-    date: "24",
-    month: "OCT",
-    day: "Saturday",
-    title: "WiseGen Youth Conference",
-    category: "Conference",
-    time: "10:00 AM",
-    location: "Venue to be announced",
-    description:
-      "A special gathering focused on faith, wisdom, relationships, purpose, and personal growth.",
-  },
-];
+type EventStatus = "upcoming" | "past";
 
 export default function EventsPage() {
+
+  interface Event {
+    id: number;
+    event_id: number;
+    title: string;
+    slug: string;
+    category: string;
+    date: string;
+    time: string;
+    location: string;
+    description: string;
+    status: EventStatus;
+    attendees: number;
+    photos: number;
+    image: string;
+    month: string;
+    day: string;
+  }
+
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      try{
+        const url = "http://localhost:8000/api/public-events";
+        const response = await axios.get(url, {withCredentials: true});
+
+        console.log(response.data);
+
+        if (response.data.status === "success"){
+          setEvents(response.data.events);
+        }
+      }catch (error) {
+        if (axios.isAxiosError(error)){
+          console.log(error.response?.data);
+        }
+      }
+    }
+    fetchEvents();
+  },[])
+
+  const upcomingEvents = events.filter(
+    (event) => event.status === "upcoming"
+  );
+
   return (
     <>
       {/* HERO */}
@@ -176,7 +191,7 @@ export default function EventsPage() {
             {upcomingEvents.map((event) => (
               <Link
                 key={event.title}
-                href="/events/upcoming"
+                href={`/events/upcoming/${event.slug}`}
                 className="group block overflow-hidden rounded-4xl bg-white transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="grid md:grid-cols-[150px_1fr_auto] md:items-center">

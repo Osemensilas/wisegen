@@ -3,8 +3,13 @@
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
+    const pathname = usePathname();
+
+    console.log(pathname);
+
     const [mobileMenu, setMobileMenu] = useState(false);
 
     return ( 
@@ -82,7 +87,6 @@ const Header = () => {
                 ["Home", "/"],
                 ["About", "/about"],
                 ["Events", "/events"],
-                ["News", "/news"],
                 ["Contact", "/contact"],
               ].map(([label, href]) => (
                 <Link

@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -7,6 +9,8 @@ import {
   Clock3,
   MapPin,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const pastEvents = [
   {
@@ -55,7 +59,54 @@ const categories = [
   "Community",
 ];
 
+type EventStatus = "upcoming" | "past";
+
 export default function PastEventsPage() {
+
+  interface Event {
+    id: number;
+    event_id: number;
+    title: string;
+    slug: string;
+    category: string;
+    date: string;
+    time: string;
+    location: string;
+    description: string;
+    status: EventStatus;
+    attendees: number;
+    photos: number;
+    image: string;
+    month: string;
+    day: string;
+  }
+
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      try{
+        const url = "http://localhost:8000/api/public-events";
+        const response = await axios.get(url, {withCredentials: true});
+
+        console.log(response.data);
+
+        if (response.data.status === "success"){
+          setEvents(response.data.events);
+        }
+      }catch (error) {
+        if (axios.isAxiosError(error)){
+          console.log(error.response?.data);
+        }
+      }
+    }
+    fetchEvents();
+  },[])
+
+  const pastEvents = events.filter(
+    (event) => event.status === "past"
+  );
+
   return (
     <>
       {/* HERO */}
