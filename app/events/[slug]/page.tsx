@@ -57,7 +57,7 @@ export default function EventDetailsPage() {
     async function getEvent() {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/public-get-event",
+          "https://www.backend.wisegen.ca/api/public-get-event",
           {
             withCredentials: true,
           }

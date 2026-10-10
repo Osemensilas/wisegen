@@ -32,7 +32,7 @@ const Events = () => {
     useEffect(() => {
     async function fetchEvents() {
         try{
-        const url = "http://localhost:8000/api/public-events";
+        const url = "https://www.backend.wisegen.ca/api/public-events";
         const response = await axios.get(url, {withCredentials: true});
 
         console.log(response.data);
