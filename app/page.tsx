@@ -1,10 +1,7 @@
-"use client";
-
 import Link from "next/link";
 import {ArrowRight, CalendarDays, Check, Heart, Sparkles, Users,} from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import Events from "@/components/homepage/Events";
 
 const values = [
   {
@@ -44,59 +41,9 @@ const youths = [
   { image: "/images/google5.jpg", alt: "fifth youth" },
 ];
 
-type EventStatus = "upcoming" | "past";
-
 export default function HomePage() {
 
-  interface Event {
-    id: number;
-    event_id: number;
-    title: string;
-    slug: string;
-    category: string;
-    date: string;
-    time: string;
-    location: string;
-    description: string;
-    status: EventStatus;
-    attendees: number;
-    photos: number;
-    image: string;
-    month: string;
-    day: string;
-  }
-
-  const [events, setEvents] = useState<Event[]>([]);
   
-  useEffect(() => {
-    async function fetchEvents() {
-      try{
-        const url = "http://localhost:8000/api/public-events";
-        const response = await axios.get(url, {withCredentials: true});
-
-        console.log(response.data);
-
-        if (response.data.status === "success"){
-          setEvents(response.data.events);
-        }
-      }catch (error) {
-        if (axios.isAxiosError(error)){
-          console.log(error.response?.data);
-        }
-      }
-    }
-    fetchEvents();
-  },[])
-
-  const truncateWords = (text: string, wordLimit: number) => {
-    const words = text.trim().split(/\s+/);
-
-    if (words.length <= wordLimit) {
-      return text;
-    }
-
-    return words.slice(0, wordLimit).join(" ") + "...";
-  };
   return (
     <>
       {/* HERO */}
@@ -172,25 +119,9 @@ export default function HomePage() {
             <div className="relative aspect-4/5 overflow-hidden rounded-[2.5rem] bg-slate-900 shadow-2xl">
               <div className="absolute inset-0 bg-linear-to from-amber-400 via-orange-400 to-slate-950" />
 
-              {/* Replace this with an actual image */}
               <div className="relative h-full w-full">
                 <Image src="/images/hero.jpg" alt="WiseGen Community" fill className="object-cover" />
               </div>
-              {/* <div className="absolute inset-0 flex items-center justify-center p-10 text-center">
-                <div>
-                  <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-3xl bg-white/20 backdrop-blur-md">
-                    <Users size={45} className="text-white" />
-                  </div>
-
-                  <p className="text-3xl font-black text-white">
-                    Faith.
-                    <br />
-                    Wisdom.
-                    <br />
-                    Purpose.
-                  </p>
-                </div>
-              </div> */}
 
               <div className="absolute bottom-5 left-5 right-5 rounded-3xl bg-white/90 p-5 backdrop-blur-md">
                 <p className="text-xs font-bold uppercase tracking-widest text-amber-600">
@@ -212,7 +143,8 @@ export default function HomePage() {
       {/* INTRO */}
       <section className="bg-slate-950 py-20 text-white sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-400">
                 About WiseGen
@@ -221,10 +153,8 @@ export default function HomePage() {
               <h2 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
                 More Than a Fellowship. A Community for Growth.
               </h2>
-            </div>
 
-            <div>
-              <p className="text-base leading-8 text-slate-300 sm:text-lg">
+              <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
                 Growing up comes with questions, opportunities, and pressures.
                 WiseGen provides a safe and supportive environment where
                 teenagers and young adults can ask questions, build meaningful
@@ -240,6 +170,29 @@ export default function HomePage() {
                 <ArrowRight size={17} />
               </Link>
             </div>
+
+            <div className="relative">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
+                <Image
+                  src="/images/about.jpg"
+                  alt="WiseGen young people growing together"
+                  fill
+                  className="object-cover"
+                />
+
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-transparent to-transparent" />
+
+                <div className="absolute bottom-5 left-5 right-5">
+                  <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-400">
+                    Growing Together
+                  </p>
+                  <p className="mt-1 text-xl font-black text-white">
+                    Faith, friendship, wisdom, and purpose.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -302,102 +255,32 @@ export default function HomePage() {
       </section>
 
       {/* EVENTS */}
-      <section className="bg-[#f5f1e8] py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-            <div className="max-w-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-700">
-                Upcoming
-              </p>
-
-              <h2 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">
-                What&apos;s Happening at WiseGen?
-              </h2>
-
-              <p className="mt-5 leading-7 text-slate-600">
-                Join us for mentoring meetings, workshops, gatherings, and
-                special events designed to help you grow in faith, wisdom, and
-                purpose.
-              </p>
-            </div>
-
-            <Link
-              href="/events"
-              className="inline-flex items-center gap-2 font-bold text-slate-950"
-            >
-              View All Events
-              <ArrowRight size={17} />
-            </Link>
-          </div>
-
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
-            {events.map((event) => (
-              <Link
-                href="/events"
-                key={event.title}
-                className="group overflow-hidden rounded-4xl bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-              >
-                <div className="flex h-52 items-end bg-slate-900 p-6">
-                  <div className="flex w-full items-end justify-between">
-                    <div>
-                      <p className="text-sm font-bold uppercase tracking-wider text-amber-400">
-                        {event.category}
-                      </p>
-
-                      <p className="mt-2 text-3xl font-black text-white">
-                        {event.title}
-                      </p>
-                    </div>
-
-                    <div className="rounded-2xl bg-white p-3 text-center">
-                      <p className="text-xl font-black leading-none">
-                        {event.date}
-                      </p>
-                      <p className="mt-1 text-[10px] font-bold text-slate-500">
-                        {event.month}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <p className="leading-7 text-slate-600">
-                    {truncateWords(event.description, 30)}
-                  </p>
-
-                  <div className="mt-6 flex items-center gap-2 text-sm font-bold text-slate-950">
-                    View Event
-                    <ArrowRight
-                      size={16}
-                      className="transition-transform group-hover:translate-x-1"
-                    />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Events />
 
       {/* WHY WISEGEN */}
       <section className="py-20 sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-2 lg:items-center lg:px-10">
+          
           <div className="relative">
-            <div className="aspect-square rounded-[2.5rem] bg-amber-400 p-8 sm:p-12">
-              <div className="flex h-full items-end rounded-4xl bg-slate-950 p-8 sm:p-10">
-                <div>
+            <div className="overflow-hidden rounded-[2.5rem] bg-amber-400 p-3 sm:p-5">
+              <div className="relative aspect-square overflow-hidden rounded-[2rem]">
+                <Image
+                  src="/images/mentoring.jpg"
+                  alt="WiseGen mentoring community"
+                  fill
+                  className="object-cover"
+                />
+
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
+
+                <div className="absolute bottom-7 left-7 right-7">
                   <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-400">
                     Why WiseGen?
                   </p>
 
-                  <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
+                  <h2 className="mt-3 text-3xl font-black leading-tight text-white sm:text-4xl">
                     You don&apos;t have to navigate life alone.
                   </h2>
-
-                  <p className="mt-5 leading-7 text-slate-300">
-                    We walk alongside young people as they navigate life&apos;s
-                    questions, challenges, relationships, and opportunities.
-                  </p>
                 </div>
               </div>
             </div>
@@ -434,13 +317,16 @@ export default function HomePage() {
               ))}
             </div>
           </div>
+
         </div>
       </section>
 
       {/* WHAT WE DO */}
       <section className="bg-amber-400 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-end">
+          
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-800">
                 What We Do
@@ -449,25 +335,49 @@ export default function HomePage() {
               <h2 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
                 Growing Together, Every Week.
               </h2>
+
+              <p className="mt-6 text-lg leading-8 text-slate-800">
+                Through our weekly faith-based mentoring meetings, WiseGen
+                creates opportunities for young people to learn, connect, ask
+                questions, share experiences, and receive guidance from mentors
+                who genuinely care about their growth.
+              </p>
+
+              <div className="mt-10 grid gap-3 sm:grid-cols-2">
+                {activities.map((activity) => (
+                  <div
+                    key={activity}
+                    className="rounded-2xl bg-white/70 p-5 font-bold text-slate-950 backdrop-blur"
+                  >
+                    {activity}
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <p className="text-lg leading-8 text-slate-800">
-              Through our weekly faith-based mentoring meetings, WiseGen
-              creates opportunities for young people to learn, connect, ask
-              questions, share experiences, and receive guidance from mentors
-              who genuinely care about their growth.
-            </p>
-          </div>
+            <div className="relative">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] shadow-xl">
+                <Image
+                  src="/images/activities.jpg"
+                  alt="WiseGen community activities"
+                  fill
+                  className="object-cover"
+                />
 
-          <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {activities.map((activity) => (
-              <div
-                key={activity}
-                className="rounded-2xl bg-white/70 p-5 font-bold text-slate-950 backdrop-blur"
-              >
-                {activity}
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-transparent to-transparent" />
+
+                <div className="absolute bottom-6 left-6 right-6">
+                  <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-400">
+                    WiseGen Community
+                  </p>
+
+                  <p className="mt-2 text-2xl font-black text-white">
+                    Learn. Connect. Grow. Make an impact.
+                  </p>
+                </div>
               </div>
-            ))}
+            </div>
+
           </div>
         </div>
       </section>

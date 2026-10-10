@@ -59,6 +59,16 @@ export default function EventsPage() {
     (event) => event.status === "upcoming"
   );
 
+  const truncateWords = (text: string, wordLimit: number) => {
+    const words = text.trim().split(/\s+/);
+
+    if (words.length <= wordLimit) {
+        return text;
+    }
+
+    return words.slice(0, wordLimit).join(" ") + "...";
+  };
+
   return (
     <>
       {/* HERO */}
@@ -191,7 +201,7 @@ export default function EventsPage() {
             {upcomingEvents.map((event) => (
               <Link
                 key={event.title}
-                href={`/events/upcoming/${event.slug}`}
+                href={`/events/${event.slug}`}
                 className="group block overflow-hidden rounded-4xl bg-white transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="grid md:grid-cols-[150px_1fr_auto] md:items-center">
@@ -221,7 +231,7 @@ export default function EventsPage() {
                     </h3>
 
                     <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-                      {event.description}
+                      {truncateWords(event.description, 30)}
                     </p>
 
                     <div className="mt-5 flex flex-col gap-3 text-sm text-slate-500 sm:flex-row sm:gap-6">

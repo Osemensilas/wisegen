@@ -1,4 +1,9 @@
+'use client';
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import axios from "axios";
 import {
   ArrowLeft,
   ArrowRight,
@@ -10,135 +15,71 @@ import {
   Users,
 } from "lucide-react";
 
-type EventSession = {
-  time: string;
-  title: string;
-  description: string;
-};
 
-type EventData = {
-  title: string;
-  category: string;
-  status: "past" | "upcoming";
-  date: string;
-  time: string;
-  location: string;
-  description: string;
-  sessions: EventSession[];
-  highlights: string[];
-  images: string[];
-};
+export default function EventDetailsPage() {
 
-const events: Record<string, EventData> = {
-  "wisegen-mentoring-meeting": {
-    title: "WiseGen Mentoring Meeting",
-    category: "Mentoring",
-    status: "past",
-    date: "May 18, 2026",
-    time: "4:00 PM",
-    location: "Venue to be announced",
-    description:
-      "A meaningful time of fellowship, biblical teaching, mentoring, conversations, and practical guidance designed to help young people grow in faith, wisdom, and purpose.",
-    sessions: [
-      {
-        time: "4:00 PM",
-        title: "Welcome & Fellowship",
-        description:
-          "An opportunity for participants to connect, meet new people, and settle into the gathering.",
-      },
-      {
-        time: "4:30 PM",
-        title: "Biblical Teaching",
-        description:
-          "A practical teaching session focused on growing in faith and making wise decisions.",
-      },
-      {
-        time: "5:15 PM",
-        title: "Mentoring Conversation",
-        description:
-          "An interactive conversation where young people can ask questions and discuss issues affecting their everyday lives.",
-      },
-      {
-        time: "6:00 PM",
-        title: "Prayer & Reflection",
-        description:
-          "A time of prayer, personal reflection, and encouragement.",
-      },
-    ],
-    highlights: [
-      "Biblical teaching and practical wisdom",
-      "Meaningful conversations",
-      "Mentoring and guidance",
-      "Fellowship and relationship building",
-      "Prayer and personal reflection",
-    ],
-    images: [
-      "/events/mentoring-meeting/01.jpg",
-      "/events/mentoring-meeting/02.jpg",
-      "/events/mentoring-meeting/03.jpg",
-      "/events/mentoring-meeting/04.jpg",
-      "/events/mentoring-meeting/05.jpg",
-      "/events/mentoring-meeting/06.jpg",
-    ],
-  },
+  const params = useParams<{ slug: string }>();
+  const slug = params.slug;
 
-  "discovering-purpose": {
-    title: "Discovering Purpose",
-    category: "Purpose",
-    status: "past",
-    date: "April 25, 2026",
-    time: "4:00 PM",
-    location: "Venue to be announced",
-    description:
-      "A special WiseGen session focused on helping young people understand identity, purpose, gifts, potential, and the unique assignment God has given each person.",
-    sessions: [
-      {
-        time: "4:00 PM",
-        title: "Opening Session",
-        description:
-          "An introduction to the theme of purpose and why discovering purpose matters.",
-      },
-      {
-        time: "4:30 PM",
-        title: "Identity & Purpose",
-        description:
-          "Exploring identity, personal values, gifts, and how they connect with purpose.",
-      },
-      {
-        time: "5:15 PM",
-        title: "Interactive Discussion",
-        description:
-          "An open conversation where participants could ask questions and share their experiences.",
-      },
-      {
-        time: "6:00 PM",
-        title: "Reflection & Prayer",
-        description:
-          "A time to reflect on the session and pray about the journey ahead.",
-      },
-    ],
-    highlights: [
-      "Understanding identity",
-      "Exploring personal gifts",
-      "Discovering purpose",
-      "Interactive discussions",
-      "Prayer and reflection",
-    ],
-    images: [
-      "/events/discovering-purpose/01.jpg",
-      "/events/discovering-purpose/02.jpg",
-      "/events/discovering-purpose/03.jpg",
-      "/events/discovering-purpose/04.jpg",
-    ],
-  },
-};
+  type EventSession = {
+    time: string;
+    title: string;
+    description: string;
+  };
 
-export default async function EventDetailsPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
+  type EventData = {
+    id: number;
+    event_id: string;
+    title: string;
+    slug: string;
+    category: string;
+    status: "past" | "upcoming";
+    date: string;
+    time: string;
+    location: string;
+    description: string;
+    short_description: string;
+    attendees: number;
+    photos: number;
+    image: string;
+    month: string;
+    day: string;
+    sessions: EventSession[];
+    highlights: string[];
+    images: string[];
+  };
+
+  const [events, setEvents] = useState<Record<string, EventData>>({});
+
+  useEffect(() => {
+    if (!slug) return;
+
+    async function getEvent() {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/public-get-event",
+          {
+            withCredentials: true,
+          }
+        );
+
+        console.log("FULL RESPONSE:", response.data);
+        console.log("EVENTS:", response.data.events);
+        console.log("IS ARRAY:", Array.isArray(response.data.events));
+        console.log("EVENT KEYS:", Object.keys(response.data.events));
+
+        if (response.data.status === "success") {
+          setEvents(response.data.events);
+        }
+      } catch (error) {
+        console.error("Failed to fetch event:", error);
+      }
+    }
+
+    getEvent();
+  }, [slug]);
+
+  console.log(events);
 
   const event = events[slug];
 
