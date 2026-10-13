@@ -174,7 +174,7 @@ export default function HomePage() {
             <div className="relative">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
                 <Image
-                  src="/images/about.jpg"
+                  src="/images/about.jpeg"
                   alt="WiseGen young people growing together"
                   fill
                   className="object-cover"
@@ -265,7 +265,7 @@ export default function HomePage() {
             <div className="overflow-hidden rounded-[2.5rem] bg-amber-400 p-3 sm:p-5">
               <div className="relative aspect-square overflow-hidden rounded-[2rem]">
                 <Image
-                  src="/images/mentoring.jpg"
+                  src="/images/mentoring.jpeg"
                   alt="WiseGen mentoring community"
                   fill
                   className="object-cover"
@@ -358,7 +358,7 @@ export default function HomePage() {
             <div className="relative">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] shadow-xl">
                 <Image
-                  src="/images/activities.jpg"
+                  src="/images/activities.jpeg"
                   alt="WiseGen community activities"
                   fill
                   className="object-cover"
