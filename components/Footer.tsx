@@ -49,7 +49,7 @@ const Footer = () => {
             </p>
 
             <p className="mt-5 text-sm text-slate-400">
-              wisegen0524@gmail.com
+              info@wisegen.ca
             </p>
 
             <div className="mt-6">
