@@ -120,7 +120,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-linear-to from-amber-400 via-orange-400 to-slate-950" />
 
               <div className="relative h-full w-full">
-                <Image src="/images/hero.jpg" alt="WiseGen Community" fill className="object-cover" />
+                <Image src="/images/hero.jpeg" alt="WiseGen Community" fill className="object-cover" />
               </div>
 
               <div className="absolute bottom-5 left-5 right-5 rounded-3xl bg-white/90 p-5 backdrop-blur-md">
