@@ -66,6 +66,7 @@ export default function ContactPage() {
               </p>
 
               <a
+                target="_blank"
                 href="mailto:info@wisegen.ca"
                 className="mt-1 block break-all text-base font-bold text-white transition hover:text-amber-400 sm:text-lg"
               >
