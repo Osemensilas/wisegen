@@ -66,10 +66,10 @@ export default function ContactPage() {
               </p>
 
               <a
-                href="mailto:wisegen0524@gmail.com"
+                href="mailto:info@wisegen.ca"
                 className="mt-1 block break-all text-base font-bold text-white transition hover:text-amber-400 sm:text-lg"
               >
-                wisegen0524@gmail.com
+                info@wisegen.ca
               </a>
             </div>
 
