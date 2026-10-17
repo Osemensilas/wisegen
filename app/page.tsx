@@ -34,11 +34,11 @@ const activities = [
 ];
 
 const youths = [
-  { image: "/images/google1.jpg", alt: "first youth" },
-  { image: "/images/google2.jpg", alt: "second youth" },
-  { image: "/images/google3.jpg", alt: "third youth" },
-  { image: "/images/google4.jpg", alt: "fourth youth" },
-  { image: "/images/google5.jpg", alt: "fifth youth" },
+  { image: "/images/google1.jpeg", alt: "first youth" },
+  { image: "/images/google2.jpeg", alt: "second youth" },
+  { image: "/images/google3.jpeg", alt: "third youth" },
+  { image: "/images/google4.jpeg", alt: "fourth youth" },
+  { image: "/images/google5.jpeg", alt: "fifth youth" },
 ];
 
 export default function HomePage() {
@@ -265,7 +265,7 @@ export default function HomePage() {
             <div className="overflow-hidden rounded-[2.5rem] bg-amber-400 p-3 sm:p-5">
               <div className="relative aspect-square overflow-hidden rounded-[2rem]">
                 <Image
-                  src="/images/mentoring.jpg"
+                  src="/images/mentoring.png"
                   alt="WiseGen mentoring community"
                   fill
                   className="object-cover"
